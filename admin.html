@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Halston bookings</title>
+<style>body{font:15px system-ui;background:#0a1311;color:#efe9dd;margin:0;padding:24px}h1{font-weight:400}table{width:100%;border-collapse:collapse;margin-top:16px}
+th,td{text-align:left;padding:10px;border-bottom:1px solid #243730;vertical-align:top}button,input{font:inherit;padding:8px 12px;border:1px solid #c3a06a;background:#101c19;color:#efe9dd;border-radius:2px}
+button{cursor:pointer}.pending{color:#e8cf9a}.confirmed{color:#7fd6a0}.cancelled{color:#d98080}small{color:#a9b3ad}</style></head><body>
+<h1>Tour bookings</h1><div id="login"><input id="t" type="password" placeholder="Admin token"> <button id="go">Open</button> <span id="e"></span></div><div id="out"></div>
+<script>
+const $=id=>document.getElementById(id);let tok=sessionStorage.getItem('tok')||'';
+const H=()=>({Authorization:'Bearer '+tok,'Content-Type':'application/json'});
+async function load(){const r=await fetch('/api/bookings',{headers:H()});if(!r.ok){$('login').style.display='';$('e').textContent='Wrong token.';return}
+ $('login').style.display='none';const {bookings}=await r.json();
+ $('out').innerHTML='<table><tr><th>Ref</th><th>When</th><th>Guest</th><th>Property</th><th>Status</th><th></th></tr>'+bookings.map(b=>
+ `<tr><td>${esc(b.reference)}</td><td>${esc(b.date)}<br>${esc(b.time)}</td><td>${esc(b.name)}<br><small>${esc(b.phone)} ${esc(b.email)}</small><br><small>${esc(b.notes)}</small></td><td>${esc(b.property)}</td>
+ <td class="${b.status}">${b.status}</td><td><button data-i="${b.id}" data-s="confirmed">Confirm</button> <button data-i="${b.id}" data-s="cancelled">Cancel</button></td></tr>`).join('')+'</table>'}
+function esc(s){return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+$('go').onclick=()=>{tok=$('t').value;sessionStorage.setItem('tok',tok);load()};
+$('out').onclick=async e=>{const b=e.target.closest('button');if(!b)return;const r=await fetch('/api/bookings/'+b.dataset.i,{method:'PATCH',headers:H(),body:JSON.stringify({status:b.dataset.s})});if(!r.ok)alert((await r.json()).error);load()};
+if(tok)load();
+</script></body></html>

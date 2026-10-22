@@ -1,0 +1,25 @@
+HALSTON ESTATES - website + booking system (sab kuchh ek folder me)
+
+AAPKO BAS YE 3 KAAM KARNE HAIN
+1) Node.js install karo (free): https://nodejs.org  -> "LTS" wala button -> Next, Next, Finish.
+2) Is ZIP ko Extract karo (Right click -> Extract All).
+3) Windows: "start.bat" par double-click.   Mac: "start.command" par double-click.
+   Browser me aapki website khul jayegi (http://localhost:4000).
+
+BOOKINGS KAISE DEKHNI HAIN
+- Browser me kholo: http://localhost:4000/admin
+- Password: black window me "ADMIN PASSWORD" ke aage likha hota hai
+  (ya data folder ki "admin-token.txt" file me).
+- Wahan har booking par Confirm ya Cancel dabao.
+
+DHYAN RAKHO
+- Ye abhi sirf aapke computer par chal raha hai. Customer tab hi booking kar payenge
+  jab ise internet par live karoge (neeche dekho). Computer band = website band.
+- Time slots aur property ke naam badalne hon to mujhse bol do.
+
+INTERNET PAR LIVE KARNA (jab taiyaar ho)
+Sabse aasan: Render.com (free account) -> New -> Web Service -> is folder ko GitHub par daalo.
+Start Command: node server.js
+Phir "Environment" me ADMIN_TOKEN naam se ek lamba password daalo.
+Free plan par bookings restart ke baad mit sakti hain, isliye paid "Disk" lena
+ya mujhse database wala version banwana.
